@@ -1,0 +1,440 @@
+---
+title: "Assignment 1"
+author: "Jack Schwarz"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+    theme: spacelab
+    highlight: pygments
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<center>
+**Completed: 14/15 (Did not do table on Q11)**
+</center>
+
+# Q1
+
+For this course, the grade breakdown is as follows:
+
+* For **Assignments** in this course, the average of all assignment grades will total to be 15% of our overall grade.
+* Our **Lab** assignment will count for a total of 10% of our final grade.
+* We will have 2 **Projects** that will total 10% of our grade, with 1/3 of this category being project 1, and the other 2/3 being project 2.
+* **In Class Quizzes** are averaged and count for a total of 10%
+* **Chapter Quizzes** found on canvas are only worth 5% of our overall grade in this course
+* Our **Mid Terms** are worth a larger 20% of our final grade
+* Our **Final** Exam is worth the most individually, and counts for 30% of our grade
+
+In addition to this, the overall grading scale is the following (No Curving):
+
+* **A** >= 90 
+* 90 > **B** >= 80
+* 80 > **C** >= 60 
+* 60 > **D** >= 50
+* 50 > **F**
+
+# Q2
+```{r}
+ddt.df <- read.csv("DDT.csv")
+ddt.mile = factor(ddt.df$MILE)
+```
+
+## a
+
+```{r}
+coplot(ddt.df$LENGTH ~ ddt.df$WEIGHT | ddt.df$RIVER * ddt.df$SPECIES, ddt.df, col = ddt.df$MILE)
+```
+
+## b
+
+For CATFISH in all three of the FCM, LCM, SCM rivers, there is a positive trend line for weight in relation to length.
+
+## c
+
+```{r}
+with(ddt.df, as.numeric(factor(MILE)))
+```
+Line A, computed above, makes a vector from the MILE variable as a factor. This is seen by using `as.numeric(factor(MILE))`
+
+## d
+
+```{r}
+length(unique(factor(ddt.df$MILE)))
+```
+
+This line goes through the vector computed above (in c), and pulls out the unique MILE values. The `length()` command then conuts how many unique values 
+
+## e
+
+The top 6 plots are empty because the species LMBASS and SMBUFFALO are not found within the rivers FCM, LCM, SCM.
+
+## f
+```{r}
+catfish.fcm = subset(ddt.df,RIVER=="FCM" & SPECIES=="CCATFISH",)
+mean(catfish.fcm$DDT)
+```
+
+# Q3 (MS 1.14)
+
+* **Length (feet)**: Quan
+* **Number of vehicle lanes**: Quan
+* **Toll Bridge (yes/no)**: Qual
+* **Average daily traffic**: Quan
+* **Condition of deck (good, fair, or poor)**: Qual
+* **Bypass or detour length (miles)**: Qual
+* **Route type (interstate, U.S., state, county, or city)** Qual
+
+# Q4 (MS Page 12,13)
+
+  a.    The four types of random sampling are:
+  * Stratified Random Sampling
+  * Simple Random Sampling
+  * Cluster Sampling
+  * Systematic Sampling
+  b.    
+  * **Stratified Random Sampling** - Subsets are divided into characteristically similar "strata" and randomly sampled. This ensures that each strata is represented in the sample
+  * **Simple Random Sampling** - Every subset in a fixed size in a pop. has an equal chance of being picked
+  * **Cluster Sampling** - A group is randomly picked from the pop. and data is collected from every unit within the group (_cluster_)
+  * **Systematic Sampling** - Involves systemically collecting every Kth experimental unit from a list of experimental units
+  
+# Q5 (MS 1.15)
+
+```{r}
+mtbe=read.csv("MTBE.csv", header=TRUE) 
+head(mtbe)
+dim(mtbe) # rows and columns
+ind=sample(1:223,5,replace=FALSE) # random indices
+mtbe[ind,]
+```
+  a.    
+```{r}
+mtbeo=na.omit(mtbe)
+```
+
+```{r}
+depth=mtbeo[mtbeo$Aquifier=="Bedrock",]$Depth
+sd(depth)
+```
+
+# Q6 (MS 1.16)
+
+```{r}
+equake = read.csv("EARTHQUAKE.csv", header=TRUE)
+equake[sample(1:nrow(equake), 30, replace=F),]
+```
+
+  a.    Here is the plot of the data sample's Magnitude:
+```{r}
+plot(ts(equake$MAGNITUDE))
+```
+  b.    Here is the median of the above magnitude
+```{r}
+median(equake$MAGNITUDE)
+```
+
+
+# Q7 (MS STATISTICS IN ACTION)
+
+  a.    The data collection method is a designed experiment, involving a stratified sample.
+  b.    The population is all the fish in the Tennessee River and its tributaries.
+  c.    The Qualitative variables are capture location and species 
+
+# Q8 (MS 2.1)
+  a.    Bar Graph
+  b.    Robotic Limbs
+  c.    Legs Only is the most used
+  d.
+```{r}
+lc = c(15,8,63,20)
+ll = c("None", "Both", "Legs Only", "Wheels Only")
+l.df = as.data.frame(matrix(data=lc/sum(lc),nrow=4,ncol=1), row.names = ll)
+l.df
+```
+  e.
+```{r}
+pareto<-function(x,mn="Pareto barplot",...){  # x is a vector
+x.tab=table(x)
+xx.tab=sort(x.tab, decreasing=TRUE,index.return=FALSE)
+cumsum(as.vector(xx.tab))->cs
+length(x.tab)->lenx
+bp<-barplot(xx.tab,ylim=c(0,max(cs)),las=2)
+lb<-seq(0,cs[lenx],l=11)
+axis(side=4,at=lb,labels=paste(seq(0,100,length=11),"%",sep=""),las=1,line=-1,col="Blue",col.axis="Red")
+for(i in 1:(lenx-1)){
+segments(bp[i],cs[i],bp[i+1],cs[i+1],col=i,lwd=2)
+}
+title(main=mn,...)
+}
+```
+```{r}
+lr = rep(ll,lc)
+pareto(lr, mn="Robotic Limbs")
+```
+
+# Q9 (MS 2.4)
+
+## a
+```{r}
+slices = c(32, 6, 12)
+lbls = c("Windows", "Office", "I.E.")
+pie(slices, labels = lbls, main="Microsoft Product Security Issues (2012)")
+```
+Microsoft Office had the lowest portion of security issues
+
+## b
+```{r}
+ms = rep(c("DoS", "Info Leak","RCE", "Spoofing", "Escalation"), c(6,8,22,3,11), mn="Microsoft Security Issues by Type (2012")
+pareto(ms)
+```
+Based on the information shown in this chart, Microsoft should focus in preventing Remote Code Execution exploits.
+
+# Q10 (2.10)
+```{r}
+swd=read.csv("SWDEFECTS.csv", header=TRUE)
+library(plotrix)
+tab=table(swd$defect)
+rtab=round(tab/sum(tab),2)
+pie3D(rtab,labels=list("OK","Defective"),main="3D Pie Chart of SWD")
+```
+
+# Q11 (MS 2.72)
+```{r}
+v.df=read.csv("VOLTAGE.csv", header=TRUE)
+v.old.df = v.df[v.df$LOCATION == "OLD",]
+v.new.df = v.df[v.df$LOCATION == "NEW",]
+```
+## a
+```{r}
+v.old.t = table(v.old.df)
+v.rel.freq = v.old.t/nrow(v.df)
+v.rel.freq
+```
+```{r}
+old<-subset(v.df,subset=LOCATION=="OLD")
+old$VOLTAGE->vtn
+#vtn
+#max(vtn)
+#min(vtn)
+lept<-min(vtn)-0.05
+rept<-max(vtn)+0.05
+rnge<-rept-lept
+inc<-rnge/9
+#inc
+seq(lept, rept,by=inc)->cl
+#cl
+cvtn<-cut(vtn,breaks=cl)
+old.tab=table(cvtn)
+barplot(old.tab,space=0,main="Voltages at Old Location",las=2)
+```
+
+
+
+## b
+```{r}
+stem(x = v.old.df$VOLTAGE)
+```
+The Histogram contains more information and is easier to view at a glance. Therefore, the histogram in part A is more informative.
+
+## c
+```{r}
+new<-subset(v.df,subset=LOCATION=="NEW")
+new$VOLTAGE->vtn
+#vtn
+#max(vtn)
+#min(vtn)
+lept<-min(vtn)-0.05
+rept<-max(vtn)+0.05
+rnge<-rept-lept
+inc<-rnge/9
+#inc
+seq(lept, rept,by=inc)->cl
+#cl
+cvtn<-cut(vtn,breaks=cl)
+new.tab=table(cvtn)
+barplot(new.tab,space=0,main="Voltages at New Location",las=2)
+```
+## d
+
+Looking at the 2 graphs, the newer frequencies seem to skew much lower in voltage than the old location. The mean voltage in the new location also seems to be lower than the than average in the old location. Due to these two factors, I believe the old location seems to be better than the new location
+
+## e
+#### Old Location
+```{r}
+mean(v.old.df$VOLTAGE)
+```
+```{r}
+median(v.old.df$VOLTAGE)
+```
+```{r}
+v.old.unique = unique(v.old.df$VOLTAGE)
+v.old.unique[which.max(table(match(v.old.df$VOLTAGE,v.old.unique)))]
+```
+
+#### New Location
+```{r}
+mean(v.new.df$VOLTAGE)
+```
+```{r}
+median(v.new.df$VOLTAGE)
+```
+```{r}
+v.new.unique = unique(v.new.df$VOLTAGE)
+v.new.unique[which.max(table(match(v.new.df$VOLTAGE,v.new.unique)))]
+```
+
+## f
+```{r}
+(10.5 -mean(v.old.df$VOLTAGE))/sd(v.old.df$VOLTAGE)
+```
+
+## g
+```{r}
+(10.5 -mean(v.new.df$VOLTAGE))/sd(v.new.df$VOLTAGE)
+```
+
+## h
+The Old Location is more likely to have a voltage reading of 10.5. The Z-score is lower, therfore 10.5 is closer to the old average than the new.
+
+## i 
+```{r}
+boxplot(v.old.df$VOLTAGE, horizontal=TRUE, main="Voltage at old Location")
+```
+There is a large outlier that is smaller than the average, two that lean smaller, and one slightly larger.
+
+## j
+```{r}
+v.old.df[abs((v.old.df$VOLTAGE -mean(v.old.df$VOLTAGE))/sd(v.old.df$VOLTAGE)) > 3,]
+```
+## k 
+```{r}
+boxplot(v.new.df$VOLTAGE, horizontal=TRUE, main="Voltage at old Location")
+```
+
+I do not see any outliers.
+
+## l 
+```{r}
+v.new.df[abs((v.new.df$VOLTAGE -mean(v.new.df$VOLTAGE))/sd(v.new.df$VOLTAGE)) > 3,]
+```
+
+## m
+```{r}
+boxplot(v.old.df$VOLTAGE,v.new.df$VOLTAGE, main="Voltage at old Location")
+```
+
+# Q12 (MS 2.73)
+
+```{r}
+p.df=read.csv("ROUGHPIPE.csv", header=TRUE)
+p.avg = mean(p.df$ROUGH)
+p.sd = sd(p.df$ROUGH)
+
+c(p.avg - 2 * p.sd, p.avg + 2 * p.sd)
+```
+
+# Q13 (MS 2.80)
+```{r}
+ant.df=read.csv("GOBIANTS.csv", header=TRUE)
+dry.df = ant.df[ant.df$Site < 6,]
+desert.df = ant.df[ant.df$Site >= 6,]
+```
+
+## a
+```{r}
+mean(ant.df$AntSpecies)
+```
+```{r}
+median(ant.df$AntSpecies)
+```
+```{r}
+mode(ant.df$AntSpecies)
+```
+
+## b
+Median is the best one as it is resistant to outliers and gives a better image of data closest to the center of distribution.
+
+## c
+```{r}
+mean(dry.df$PlantCov)
+```
+```{r}
+median(dry.df$PlantCov)
+```
+```{r}
+mode(dry.df$PlantCov)
+```
+
+## d 
+```{r}
+mean(desert.df$PlantCov)
+```
+```{r}
+median(desert.df$PlantCov)
+```
+```{r}
+mode(desert.df$PlantCov)
+```
+
+## e 
+Yes, Dry Steppe appears to be around 40, while the Gobi Desert is around 28.
+
+
+# Q14 (MS 2.84)
+```{r}
+galaxy.df = read.csv("GALAXY2.csv", header=TRUE)
+```
+
+## a
+```{r}
+hist(galaxy.df$VELOCITY, breaks = 10)
+```
+## b 
+Yes, there are 2 peaks surrounded by "building" data on the graph. This seems to me like there are 2 main clusters around ~22800 and ~19200
+
+
+## c
+```{r}
+# The cluster seems to be seperated by Velocity = 21000
+galaxy.1 = galaxy.df$VELOCITY[galaxy.df$VELOCITY <= 21000]
+galaxy.2 = galaxy.df$VELOCITY[galaxy.df$VELOCITY > 21000]
+```
+
+#### Left Cluster
+```{r}
+mean(galaxy.1)
+```
+```{r}
+sd(galaxy.1)
+```
+#### Right Cluster
+```{r}
+mean(galaxy.2)
+```
+```{r}
+sd(galaxy.2)
+```
+
+## d
+##### Z-Scores
+```{r}
+(20000 - mean(galaxy.1))/sd(galaxy.1)
+```
+```{r}
+(20000 - mean(galaxy.2))/sd(galaxy.2)
+```
+
+The Vel. is closer to the sd of the left-most cluster than the right-most cluster. Therefore it is most likely to be the left-most cluster.
+
+# Q15 
+```{r}
+library(ggplot2)
+
+ggplot(ddt.df, aes(x=RIVER, y=LENGTH)) + geom_boxplot(aes(fill=SPECIES)) + ggtitle("Jack Schwarz")
+```
+
+
+

@@ -1,0 +1,156 @@
+---
+title: "Laboratory2"
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    math: katex
+    df_print: paged
+    toc: yes
+             
+vignette: >
+  %\VignetteIndexEntry{Laboratory2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "ws#>",
+  warning = FALSE,
+  message = FALSE
+)
+
+# directory to Lab
+dirdl <- system.file("Lab2",package = "Intro2R")
+
+# create rmd link
+
+library(Intro2R)
+dir(dirdl)
+
+```
+
+
+
+# Introduction
+
+`r rmdfile("Lab 2","MATH4753Laboratory2.docx","Lab2")` will cement a number of R skills and theory related to the following:
+
+  1.	The empirical rule
+  2.	The Chebyshev rule
+  3.	Transformation of data to z values
+  4.	Location of outliers using z values
+  
+
+# R skills
+
+For the empirical rule you will need to be able to calculate means and standard deviations.
+
+You can make z values in a number of different ways.
+
+## Z, Method 1
+
+Suppose we wish to make Z values from the DDT variable in the `ddt` data frame.
+
+```{r}
+d <- ddt$DDT
+z <- (d-mean(d))/sd(d)
+head(z)
+```
+
+## Z, Method 2
+
+We can use a built in function called `scale()`
+
+```{r}
+zmat<-scale(ddt$DDT) # scale makes a matrix of z values
+z<-zmat[,1] # take the column to form a vector
+head(z)
+```
+
+## Verify Chebyshev and Empirical rules
+
+To show how many data values lie within `k` standard deviations of the mean you will need to count the number of values in an interval
+
+### Making intervals
+
+```{r}
+mn <- mean(ddt$DDT)
+sdd <- sd(ddt$DDT)
+mp<-c(-1,1)
+k<-2
+
+mn+mp*k*sdd
+
+```
+
+### Values within k standard deviations of the mean
+
+We can subset the data frame with `abs(z)<2` and then pull off the DDT column.
+The function `length` adds up the number of values in the vector
+
+```{r}
+ddl2<-ddt[abs(z)<2,"DDT"]
+length(ddl2)/length(ddt$DDT)*100
+```
+98.6% of the DDT lies within 2 standard deviations of the mean.
+
+# Dotplot in ggplot
+
+The dotplot is a simple device, we can set bins of a certain size (I will use 1/5 sd(LENGTH)) to break the continuous data into discrete levels.
+
+In addition we will use the `cut()` function to create labels corresponding to regions of LENGTH that are distant from the mean by integral standard deviations.
+
+See the code below:
+
+```{r}
+library(ggplot2)
+library(dplyr)
+mn <- mean(ddt$LENGTH)
+sdd <- sd(ddt$LENGTH)
+ddt <- ddt %>% mutate( z = (LENGTH-mn)/sdd, 
+                       Far = ifelse(abs(z)> 3, "Outlier", 
+                                    ifelse(abs(z)>=2 & abs(z)<=3, 
+                                           "Posiible Out.", "MAIN")))
+g <- ggplot(ddt, aes(x = LENGTH)) + geom_dotplot(aes(fill = Far),binwidth = 1/5*sdd)
+g <- g + geom_density(aes(y = ..count..))
+g <- g + labs(title = "LENGTH data categorized by outlier status using z")
+g
+```
+
+Or we could just *cut* the LENGTH variable as below:
+
+```{r}
+library(ggplot2)
+library(dplyr)
+mn <- mean(ddt$LENGTH)
+sdd <- sd(ddt$LENGTH)
+ddt <- ddt %>% mutate( Lcut = cut(LENGTH, c(min(LENGTH)-1, 
+                                            seq(mn-3*sdd, mn+3*sdd, by = sdd), max(LENGTH)),
+                                  labels = c("Outlier","Possible Out","Main","Main", "Main","Main", "Possible Out", "Outlier")))
+g <- ggplot(ddt, aes(x = LENGTH)) + geom_dotplot(aes(fill = Lcut),binwidth = 1/5*sdd)
+g <- g + geom_density(aes(y = ..count..))
+g <- g + labs(title = "LENGTH data categorized by outlier status")
+g
+```
+
+
+# Instructions
+
+You will need the following files
+
+```{r}
+dir(dirdl)
+```
+
+Make sure you place them all in Lab2.
+
+`r rmdfile("EPAGAS", "EPAGAS.XLS","Lab2")`
+
+`r rmdfile("Lab2.R", "Lab2.R", "Lab2")`
+
+`r rmdfile("Lab document","MATH4753Laboratory2.docx","Lab2")`
+
+

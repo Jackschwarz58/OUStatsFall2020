@@ -1,0 +1,22 @@
+accidents               Accidents data set.
+bones                   Bones data set.
+carbon                  Iron making process.
+ddt                     DDT data set.
+drill                   Hydraulic drilling experiment.
+fire                    Fire data set.
+flights                 Flights data set.
+lichen                  Radiation in lichen
+myTsim                  T simulation
+mybin                   Binomial Simulation
+myfirstfun              Very first function
+mymode                  Function to find the mode
+mynewf                  Another function
+myreadxl                Read all xl files
+myttest                 A constructor function for t tests
+ojuice                  Orange Juice.
+plot.mytt               Method for plotting class mytt
+rmdfile                 Link and file location
+rmdfiles                Links to files in directory
+seed                    Germination of seeds
+shinyplots              Dynamic plots using shiny
+spruce                  Spruce data set.

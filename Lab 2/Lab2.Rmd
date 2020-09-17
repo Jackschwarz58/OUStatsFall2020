@@ -1,0 +1,95 @@
+---
+title: "Lab2"
+author: "Jack Schwarz"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(lattice)
+library(MASS)
+```
+
+# Tasks
+
+## Task 1 
+```{r}
+getwd()
+```
+
+## Task 2
+```{r}
+epas <- read.csv("EPAGAS.csv")
+head(epas)
+```
+
+
+## Task 3
+```{r}
+mpg <- as.vector(epas['MPG'])
+head(mpg)
+```
+
+```{r}
+e <- epas$MPG
+z <- (e-mean(e))/sd(e)
+head(z)
+```
+
+  a.    Based on the above z-score, $\overline{z}$ is the following: 
+```{r}
+round(mean(z), digits=3)
+```
+
+  b.    The Standard Deviation of $z$ is:
+```{r}
+sd(z)
+```
+
+  c.    Possible outliers of $z$:
+```{r}
+po = e[abs(z)>=2 & abs(z)<= 3]
+```
+
+  d.    Defined outliers of $z$:
+```{r}
+do = e[abs(z) > 3]
+```
+
+
+  e.    Here is a dotplot of the mpg data. Red dots are outliers while blue dots are possible outliers
+```{r, fig.align='center'}
+gcol = ifelse(abs(z)>3, "Red",
+        ifelse(abs(z)>=2 &abs(z)<=3,"Blue", "Black"))  
+
+dotplot(mpg,col=gcol)
+```
+
+## Task 4
+
+  a.    Below is a boxplot of the 'mpg' variable
+```{r, fig.width=12}
+boxplot(mpg, col="black", notch=TRUE, horizontal=TRUE, main="Miles Per Gallon", cex.main=2)
+```
+
+  b.    By Chebyshev's theorem, the proportion of data within 2 standard deviations of the mean of MPG is at least $$\frac{3}{4}$$
+  
+  c.    Below is the actual proportion within 2 standard deviations of the mean
+```{r}
+fractions(length(e[abs(z)<2])/length(e))
+```
+  d.    Chebyshev's estimate is somewhat to the actual proportion found within 2 standard deviations of the mean. As Chebyshev's states that the expected proportion is _at least_ $$\frac{3}{4}$$ the actual number falls in line with this theorem. However this may not be the most exact estimate and Chebyshev's does not completely agree with the actual data.
+  
+  e.    The Empirical rules states that within 2 standard deviations of the mean, the proportion is $$95\%$$ or $$\frac{19}{20}$$ or $$.95$$
+  
+  f. 
+```{r}
+length(e[abs(z)<2])/length(e)
+```
+
+  g.    The Empirical rule estimated that 95% of the data would fall within 2 standard deviations of the mean. The actual data shows that 96% of the data falls within his range. As this is a diference of .01, this shows the Empirical rule is within the acceptable margin for an estimate, and is therefore valid in this case.
+

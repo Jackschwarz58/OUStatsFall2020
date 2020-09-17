@@ -1,0 +1,24 @@
+Package: Intro2R
+Type: Package
+Title: Introduction to R
+Version: 0.1.0
+Authors@R: person("Wayne", "Stewart", email = "wayne.s.stewart@ou.edu",
+  role = c("aut", "cre", "cph"))
+Maintainer: Wayne Stewart <wayne.s.stewart@ou.edu>
+Description: Helps students understand the basics of making functions and creating R scripts.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 2.10)
+RoxygenNote: 7.1.1
+Imports: ggplot2, tidyverse, dplyr, data.table, prettydoc, readxl,
+        stringr, purrr, s20x, gpairs, boot, stats4, shiny, MCMCpack,
+        ggmcmc, coda, plotly
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+URL: https://github.com/MATHSTATSOU/Intro2R
+BugReports: https://github.com/MATHSTATSOU/Intro2R/issues
+NeedsCompilation: no
+Packaged: 2020-09-02 13:08:52 UTC; jack
+Author: Wayne Stewart [aut, cre, cph]
+Built: R 4.0.2; ; 2020-09-02 13:09:15 UTC; unix

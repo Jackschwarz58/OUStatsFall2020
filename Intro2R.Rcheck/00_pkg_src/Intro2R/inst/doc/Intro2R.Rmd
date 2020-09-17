@@ -1,0 +1,745 @@
+---
+title: "Intro2R"
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    math: katex
+    df_print: paged
+             
+vignette: >
+  %\VignetteIndexEntry{Intro2R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Intro2R)
+```
+
+
+# Introduction
+
+
+In any of the stats courses here in the MATH department OU,  R is central. You MUST get up to speed and learn as much as possible. R for many statisticians is the lingua Franca of practical statistics. That is not to say that other languages are not valuable. Python, Julia, C++, Mat-lab, SAS, Minitab, SPSS etc are all good and useful have their strengths and weaknesses. Being well rounded and knowledgeable in computing is a must for modern statistics whether you are implementing the classical or Bayesian approach. However, one work space at a time will be best and we will start with R after which you can learn others. 
+
+# R download
+
+Get R from a reliable source -- <https://cran.r-project.org/> download and install for your operating system.
+For instructions on how to install R and Rstudio go to <https://bookdown.org/rdpeng/rprogdatascience/getting-started-with-r.html#installation>
+
+
+# Use RStudio
+
+R by itself is a little intimidating with a `>` commandline waiting for input. To help with recording and organizing code we will use a free IDE (Integrated Development Environment) called `RStudio`. This is  free at the moment, make sure you do not pay a cent for it. If the owners ever charge for the software we will use a different front end immediately. There are alternatives which are also good but RStudio is likely ahead of the pack in its features such as package making, GIT implementation, R markdown etc.
+
+Download and install the `RStudio Desktop (Open Source License)` for your operating system -- <https://rstudio.com/products/rstudio/download/>
+
+# Learning R on your own
+
+In all of the MATH stats courses, laboratories will guide you in what needs to be learnt and this is generally contextualized to some statistical objective. This means that you learn R as you learn STATS.
+
+However, there are excellent resources available -- all FREE! These can be referenced to help you perfect your knowledge. Please go to the following website <https://bookdown.org/>. There are a range of books from elementary to advanced level all written in R markdown and knit into html. 
+
+## Getting started on your own
+
+For a good practical introduction to R you should read chapter 4 and 5 of Peng's work <https://bookdown.org/rdpeng/rprogdatascience/r-nuts-and-bolts.html#entering-input>
+
+## More advanced topics on your own
+
+Data visualization can be learnt and perfected here <https://r4ds.had.co.nz/data-visualisation.html#introduction-1> 
+
+## Advanced R on your own
+
+This topic should only be looked at by those with some experience with basic R. See <https://adv-r.hadley.nz/> 
+
+## Reading in data
+
+As a preliminary -- you should know how to read data into R's workspace. We will often work with csv files in which case you can use `read.csv()`
+
+```{r, eval=FALSE}
+data = read.csv(file.choose())
+```
+
+Please read <https://r-graphics.org/loading-a-delimited-text-data-file.html> for more details
+
+
+# Intro2R part 1: Atomic vectors
+
+
+
+## Vector creation
+
+We can create a vector by using the `c()` function. We may think of the `c` as short for "combine" -- the assignment infix `<-` labels the object with the name on the left `v`
+
+```{r}
+v <- c(1,4,5)
+v
+```
+
+Notice that the contents of the object `c(1,4,5)` are printed to the commandline by entering the name of the object `v`. We can use a function to do the same job `print(v)` 
+
+```{r}
+print(v)
+```
+
+Functions are central to R and we want to build up a good functional programming understanding of the workspace. This will come later -- for now just notice that we used a function `c()` -- it is a function because it has some text `c` followed by `(` R will be expecting a completed function either with arguments or not. 
+
+## Empty vector
+
+Many times  we will need to populate a vector with components. This will mean that an empty vector will need to be created
+
+```{r}
+v <- c()
+v
+```
+
+The problem with this is that before a new component is added -- space will need to be allotted -- this will work but will be slower than optimal.
+
+A better way would be to use the `vector` function
+
+```{r}
+v <- vector(mode = "numeric", length = 10L)
+v
+```
+
+
+## Subsetting a vector
+
+We can obtain subsets of vectors by using `[]` square brackets. R will know that `v[]` is NOT a function because of the shape of the brackets. Note that `v[i]` would be the ith component of `v`
+
+```{r}
+v <- LETTERS
+v
+v[1]
+```
+
+We could get more components
+
+```{r}
+v[2:4]
+```
+
+Or use `c()` example:
+
+```{r}
+v[c(1,3,5,6,7)]
+```
+
+
+We can assign a component using `<-`
+
+```{r}
+v[4]<-"a string of letters"
+v
+```
+
+Note that a vector is of a certain mode and will retain this even if we try to assign a number to one of the components
+
+```{r}
+print("Mode before is:")
+mode(v)
+v[26] <- 1
+v
+print("Mode after is:")
+mode(v)
+```
+
+Notice the `1` has been made into a character by quoting `"1"`
+
+## Populate a vector with and without loops
+
+We learnt how to create a vector but sometimes each component of the vector must be individually formed from other functions. In many cases this is simply done all at once using the vector proprties that R was created to perform.  
+
+### One line
+
+This will be done most often in R and you should master this idea. Many calculations will be done on this basis.
+
+```{r}
+i <- 1:10
+v <- 2*i + 10 # i is a vector -- one line calculation
+v
+```
+
+
+### For loop
+
+Sometimes components will need to be assigned with different formulas using conditions etc loops enable more sophisticated ways of assignment -- but if you dont need a loop (like above) then don't use one.
+
+The for loop takes an index and increments it by 1. Can you predict the output? Notice the for loop uses a `{}` pair of braces to put whatever number of lines of code you require. One line is executed at a time. 
+
+```{r}
+v <- vector(mode = "numeric", length = 10)
+for(i in 1:10){
+  v[i]<-2*i +10
+}
+v
+
+```
+
+
+Notice also that the print out has each line beginning with a `[]` which tells you the component number.
+
+### while loop
+
+The while loop use a condition and will continue `while` the condition is true
+
+```{r}
+i <- 1 # initialize i to get the loop started
+v <- vector(mode = "numeric", length = 10)
+while(i <= 10){
+  v[i] <- 2*i + 10
+  i <- i + 1 # increment i by 1
+}
+v
+```
+
+
+### More complex assignment using `if`
+
+Say we need to use two formulas to make assignments.  We will use the `if` condition,  then statement else statement. Look at the code
+
+```{r}
+v <- vector(mode = "numeric", length = 10)
+for(i in 1:10){
+  if(i<=5){
+  v[i]<-2*i +10 # only made when i<=5
+  }
+  else{
+    v[i] <- 3*i +10 # only made when i!<=5 (not less than or equal to 5)
+  }
+}
+v
+```
+
+
+
+# Intro2R part 2: list vectors
+
+The perfecting of lists is a very important skill to acquire in R since a list is very versatile with regard to the types of components you can add. Lists are for that reason returned from functions and since we wish to become great at functions we must understand lists. 
+
+## Creation of lists
+
+To create a list you can use the function `list`. Notice that the list can be made out of any other object type (unlike an atomic vector of a certain mode).
+
+```{r}
+l <- list(a = 1:20, b = letters, c = rnorm(10))
+l
+```
+
+We can make empty lists
+
+```{r}
+l <- vector(mode = "list", length = 3)
+
+l
+```
+
+We can populate a list in a number of ways. Note very carefully the use of the double square brackets `[[]]`. You will need to distinguish `[]` which returns a smaller list and `[[]]` an element.
+
+```{r}
+l[[1]] <- 1:10
+l[[2]] <- letters
+l[[3]] <- rnorm(4)
+l
+names(l) <- c("a", "b", "c")
+l
+```
+
+ 
+## Subsetting lists
+
+[[]] and $ do essentially the same thing.
+
+```{r}
+l[[2]]
+```
+
+ 
+ Or we coud write it
+ 
+```{r}
+l$b
+typeof(l$b)
+```
+ 
+ 
+ Notice that the output above are atomic vectors of the type made for each component of the list `l`
+ 
+ If we use `[]` look what happens
+ 
+```{r}
+l[2]
+typeof(l[2])
+```
+ 
+ 
+For more information on this see <https://adv-r.hadley.nz/subsetting.html#subset-single> 
+
+You can also use names to subset (lets test our understanding of [] and [[]]) 
+
+```{r}
+l["b"]
+
+all.equal(l["b"], l$b) # notice mismatch
+
+l[["b"]]
+
+all.equal(l[["b"]], l$b) # same
+```
+
+
+
+# Intro2R part 3: matrices
+
+This is a very useful object and we will use many matrices in STATS
+
+## Creation of a matrix of NA's
+
+
+```{r}
+mat <- matrix(NA, 
+              nrow= 10,
+              ncol = 5,
+              byrow = TRUE
+              )
+mat
+```
+
+
+Matrices are similar to vectors -- and are a special form of array. Lets make one:
+
+```{r}
+mat <- matrix(1:50, 
+              nrow = 10, 
+              ncol = 5, 
+              byrow = TRUE
+              )
+mat
+```
+
+We can give the matrix column and row names after the fact
+
+```{r}
+colnames(mat) <- letters[1:5]
+rownames(mat) <- LETTERS[1:10]
+mat
+```
+
+Or, we could do it all at once
+
+```{r}
+mat <- matrix(1:50, 
+              nrow= 10, 
+              ncol =5, 
+              dimnames = list(LETTERS[1:10], letters[1:5]))
+mat
+```
+
+
+## Subsetting
+
+You can subset using row and column reference with `[,]` 
+
+Example -- find the element in the first row and third column
+
+```{r}
+mat[1,3]
+```
+
+
+Or whole rows or whole columns, notice that the result is a vector and the matrix formatting is dropped
+
+```{r}
+mat[2,] # second row
+
+mat[,3] # 3rd column
+```
+
+
+If we want the subset to retain the matrix formatting then use the option `drop = FALSE`
+
+```{r}
+mat[,3, drop = FALSE]
+```
+
+We can remove a row and column
+
+```{r}
+mat[-2,-3]
+```
+
+We can also use the names of columns and rows
+
+```{r}
+mat[,"c"]
+```
+
+# Intro2R part 4: Data frames
+
+Matrices  use data of one type but data frames can be created from different data types and this makes them more versatile for data storage and later used in  analytic applications.
+
+
+## Creating data frames
+
+You can create a data frame using `data.frame()`
+
+```{r}
+df <- data.frame(a=1:26, b = letters, c = LETTERS, d= rnorm(26))
+head(df)
+```
+
+
+## Subsetting 
+
+This is done in much the same way as marices. You can think of a data frame as a folded list where each component is a column and necessarily the same length.
+Because of this link with lists you can subset a column by simply typing the column number or name with no comma separator. The object formed is a data frame.
+```{r}
+df[2]
+df["b"]
+str(df[2])
+```
+
+
+Other examples showing that the subset object is a data frame -- notice the useage of the square brackets `[]`
+
+```{r}
+df2 <- df[c(2,3)]
+str(df2)
+
+
+l2 <- df2[[2]] # selects a component
+str(l2) # a vector 
+
+df3 <- df2[2] # selects a component and returns a data frame
+str(df3)
+
+```
+
+What happens when you subset rows?
+
+```{r}
+str(df)
+df[1:4,]
+
+str(df[1:4,])
+```
+
+# Intro2R part 5: Plotting
+
+R is feature rich when it comes to plotting. This is one of the many strengths of R and you should pay attention to how to make plots.
+
+One of the key areas of statistics is exploaratory plots -- making plots suitable for summarizing your data is a skill which you should learn.
+
+Classifying variables will help in selecting the most appropriate plot
+
+***
+
+  1. Qualitative
+      + Nominative
+      + Ordinal
+  2. Quantitative
+      +  Discrete
+      +  Continuous
+    
+***
+
+## Base plots
+
+The packages that come with a standard installation of R are called Base packages -- they are already loaded into the workspace. We can use these functions to make base R plots.
+
+Example: `mtcars` data set
+I will use the function `with` - this makes data variables seen by the functions that follow. 
+Notice that the `plot` function takes an `x` then a `y` vector. We shall use the ggplot2 package and use some of its data
+
+```{r,fig.width=6}
+library(ggplot2)
+mpg
+with(mpg, plot(displ, cyl))
+
+```
+
+You can see that the above plot is minimal in its sophistiation but with a little work can be made useful. We will use a lot of base plots in the course.
+
+However a more sophisticated way of plotting is to call functions from a package that uses the `grammar of graphics` or `gg` for short.
+
+A good introduction to this can be found here: [gg graphics](https://r4ds.had.co.nz/data-visualisation.html#introduction-1)
+
+
+This system of graphics is made by adding one layer to another. This is done by redefining `+` using meta - programming techniques.
+
+We will make layer 0 then add layers to it
+
+```{r}
+g <- ggplot(data = mpg)
+g
+```
+
+Now we will look at city mileage per gallon and see how this varies with the engine displacement. Notice that we add layers with various geometries. The function `aes` stands for `aesthetics` and adds co-ordinate axes and other graphical qualities loike the color of points.
+
+```{r ggplot,fig.width = 8, fig.fullwidth = TRUE}
+g <- g + geom_point(aes(x = displ, y = cty ,color = year )) + ggtitle("City mpg versus engine size")
+g
+```
+
+We may choose a different plot
+
+```{r}
+g <- ggplot(mpg)
+
+g <- g + geom_boxplot(aes(x = drv, y = hwy, fill = drv )) 
+g
+```
+
+
+We can try a different fill in the aesthetic:
+
+```{r,fig.width = 8, fig.fullwidth = TRUE}
+g <- ggplot(mpg)
+
+g <- g + geom_boxplot(aes(x = drv, y = hwy, fill = manufacturer ))
+g
+```
+
+
+The above plot gives an indication of the distribution of HWY mpg for different drivetrains and manufacturer.
+
+We can easily make many cool plots with this package. 
+
+# Intro2R part x: Puting it all together using Functions
+
+
+To get the most out of R you will need to learn how to make functions. This will allow you to efficiently repeat the same analysis on different data and perfect your procedures. 
+
+Better yet you should package your functions so that improvements and new editions can be easily made to keep abreast of what you and others have learnt. You can also more easily share your work with others.
+
+## Making functions
+
+Every function is made using the following structure
+
+```{r,eval=FALSE}
+myf <- function(){
+  
+}
+```
+
+The function has a name -- in this case `myf` and is created using the base R function `function()` inside the `()` parentheses you can place arguments then come the braces `{}` where you can place the body of the function which will contain formulae and R code to manipulate the data or variables supplied.
+
+Typically we release a `list` to the command line.
+
+A first function has been made for you
+
+```{r}
+myfirstfun
+```
+
+
+
+This function takes a vector and makes a y vector equal to $x^2$ and then plots `y~x`.
+
+```{r}
+myfirstfun(x = 1:30, col = "Red")
+```
+
+Can you see what this function does? Notice that there is a list containing the `x` and `y` vectors.
+
+We could catch the output in an object
+
+```{r}
+obj <- myfirstfun(x = 1:30, col = "Red")
+obj$x
+```
+
+## Improve the function
+
+We will improve the function by adding a better graph using ggplot and place a summary of the data frame
+
+```{r}
+myimprovedfun <- function(x, ...) { # key function "function(), name of function , ... sends extra arguments to plot
+  y <- x^2 #object on the right x^2,  name on the left "y"
+  df <- data.frame(x=x, y= y)
+  g <- ggplot(df)
+  g <- g + geom_point(aes(x = x, y=y, ...)) + ggtitle("Improved function")
+  print(g)
+  return(list(x=x,y=y, sumdf = summary(df))) # return will stop execution of code and release argument to the command line
+}
+
+```
+
+
+Now call it
+
+```{r}
+myimprovedfun(x = 1:40, col = "Red" )
+```
+
+
+
+
+# Important packages for you to master
+
+## dplyr
+
+### Introduction
+
+Manipulating data frames using `[[]]`, `aggregate`, `subset`  etc are good but can get difficult when more complicated subsetting is needed. 
+
+If we can provide a mechanism to do one part of a complex subset at a time then what was difficult can be seen as a succession of simpler steps.
+
+There are a number of tutorials which [are useful](http://genomicsclass.github.io/book/pages/dplyr_tutorial.html) 
+
+[Also see video](https://www.youtube.com/watch?v=LRU5TxFD394) 
+
+
+### Verbs
+
+There are a number of important verbs that you need to master to gain the most out of `dplyr`
+
+  1. select()	select columns
+  2. filter()	filter rows
+  3. arrange()	re-order or arrange rows
+  4. mutate()	create new columns
+  5. summarise()	summarise values
+  6. group_by()	allows for group operations in the "split-apply-combine" concept
+  
+  
+#### `select()`
+
+The first verb is easy to use, select columns (we don't need to use quotes))
+
+```{r}
+library(dplyr)
+sub <- select(ddt, c(LENGTH,WEIGHT))
+head(sub)
+```
+
+When using dplyr it is useful to use the pipe operator.
+
+```{r}
+filter(ddt, WEIGHT > 2000)
+```
+
+Or you can use a `pipe` written `%>%`. Pipe the data into te first position of the `filter` function.
+
+```{r}
+ddt %>% filter(., WEIGHT > 2000)
+```
+#### Chaining the commands together
+
+We can pipe the output of one verb into the next, notice we do not need to put a `.` in the function - it is assumed.
+
+```{r}
+ddt %>% filter(WEIGHT > 2000) %>% select(LENGTH) 
+```
+
+
+### `arrange`
+
+We can arrange the rows -- example -- suppose you wish to reorder the rows so that the LENGTH variable descends
+
+```{r}
+obj <- ddt %>% arrange(desc(LENGTH)) 
+head(obj)
+```
+
+You can do more sophisticated arrangements. Use `.by_group`
+
+Suppose we wish to arrange the rows by LENGTH within groups of SPECIES
+
+
+```{r}
+by_SPECIES <- ddt %>% group_by(SPECIES)
+head(by_SPECIES)
+obj2 <- by_SPECIES %>% arrange(desc(LENGTH), .by_group =TRUE)
+tail(obj2)
+```
+
+### `mutate`
+
+
+Create new columns -- say $DENSITY = LENGTH/WEIGHT$ 
+
+```{r}
+ddt2 <- ddt %>% mutate(DENSITY = LENGTH/WEIGHT)
+head(ddt2)
+```
+
+## `data.table`
+
+
+![data datable](logo.png)
+
+Another very important package is `data.table`. This a very much enhanced version of the `data.frame`. You can create it using `data.table()` or when reading in data use `fread`. Existing data frames can be convered with `setDT()`.
+
+To get some good information look at the help file associated with the package and the vignette `vignette(package="data.table")`
+
+Also a very good website to get up and running is <https://github.com/Rdatatable/data.table/wiki> see also <https://cloud.r-project.org/web/packages/data.table/vignettes/datatable-intro.html>
+
+
+### Some useful data 
+
+The code below was used to make a local copy of flights data for the current package
+
+```{r,eval=FALSE}
+library(data.table)
+flightfile <-"https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"
+}
+flights <- fread(flightfile)
+usethis::use_data(flights)
+```
+
+### Creating a `data.table`
+
+```{r}
+library(data.table)
+ddt2<-copy(ddt) # ddt is locked in the package
+DT <- setDT(ddt2) 
+class(DT)
+```
+
+#### Look at the enhancements
+
+`DT[i,j,by]` the i is for rows, j columns and by for groups.
+
+
+##### `i`
+
+```{r}
+DT[WEIGHT > 2000]
+```
+
+#### `j`
+
+Notice that since I select a single column it is returned as a vector
+
+```{r}
+DT[WEIGHT > 2000, LENGTH]
+```
+
+#### `by`
+
+```{r}
+DT[WEIGHT > 2000, LENGTH, by =SPECIES]
+```
+
+In `DT[i,j,by]` as long as the `j` part is a list then the result will be a data.table -- you can ensure a list by enclosing the `j` expression using `list()` or `.()`
+
+
+We will use the `flights` data set already available in the `intro2R` package.
+
+Look how big the `flights` data set is and note how quickly `data.table` handles subsetting  in the following examples.
+
+```{r}
+class(flights)
+dim(flights)
+names(flights)
+flights[,.(dest = dest , distance = distance)]
+```
+

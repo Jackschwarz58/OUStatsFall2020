@@ -1,0 +1,150 @@
+---
+title: "Lab1"
+author: "Jack Schwarz"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(RColorBrewer)
+library(ggplot2)
+```
+
+
+# Tasks
+
+## Task 1
+
+Find the working directory
+
+```{r}
+library(ggplot2)
+```
+
+## Task 2
+
+Read in DDT Data
+
+```{r}
+ddt <- read.csv("DDT.csv")
+head(ddt)
+```
+
+## Task 3
+
+  a.    The Qualitative variables are RIVER and SPECIES
+  b.    The Quantitative variables are MILE, LENGTH, WEIGHT, and DDT
+  c.    There are 3 different species of fish in the data set.
+```{r}
+spc <- as.vector(as.matrix(ddt['SPECIES']))
+length(unique(spc))
+```
+  
+  d.    Below are the observations with SPECIES = LMBASS and Weight > 800.
+```{r}
+with(ddt, ddt[WEIGHT>800 & SPECIES=="LMBASS",])
+```
+  e.    Below are the observations when RIVER = SCM and DDT > 4.0.
+```{r}
+with(ddt, ddt[DDT > 4.0 & RIVER=="SCM",])
+```
+
+## Clicker Questions
+  1. The Avg length of fish is: `r mean(ddt[,'LENGTH'])`. (`mean(ddt[,'LENGTH'])`)
+  2. The standard deviation of the weight of the fish is: `r sd(ddt[,'WEIGHT'])`. (`sd(ddt[,'WEIGHT'])`)
+  3. **No**, that is not the correct Graph.
+```{r, fig.align='center'}
+ggplot(ddt, aes(x=WEIGHT, y=LENGTH)) + geom_point() + ggtitle("Jack Schwarz")
+```
+  4.    The last value of v=1:20 is 1.0   
+```{r}
+v=1:20
+v/20
+```
+  
+## Task 4
+  a.    Below is the River Table
+```{r}
+rt=with(ddt,table(RIVER))
+rt
+```
+  b.    Here is a barplot of the above table
+```{r, fig.align='center'}
+colr = brewer.pal(4, "Set3")
+barplot(rt,legend=TRUE, xlim = c(0,5.7),col=colr, xlab="Rivers", main="Number of Rivers")
+```
+  c.    Below is a cross table of Rivers and Species of Fish
+```{r}
+dtable = with(ddt,table(SPECIES,RIVER))
+dtable
+```
+  d.    Here is the barplot of the above table
+```{r,fig.align='center'}
+colr2= brewer.pal(3, "Set3")
+barplot(dtable,beside=TRUE,legend=TRUE,col=colr2, xlab="Rivers", ylab="Number of Fish",main="Species of Fish by River",xlim = c(0,23))
+```
+
+## Task 5
+
+  a. Below is the Species pie chart.
+```{r,fig.align='center'}
+sp=with(ddt,table(SPECIES))
+pie(sp,col=3:7)
+```
+
+  b.  Here is the River Pie Chart
+```{r}
+pie(rt, col=2:6)
+```
+
+## Task 6
+Below are a, b, c. These are the boxplots of DDT, Weight, and Length.
+```{r, align='center'}
+layout(matrix(c(1,2,3),nr=1,nc=3))
+with(ddt,boxplot(DDT,ylab="DDT",col="Blue", main="DDT",notch=TRUE))
+with(ddt,boxplot(WEIGHT,ylab="WEIGHT",col="Green", main="Weight",notch=TRUE))
+with(ddt,boxplot(LENGTH,ylab="LENGTH",col="Red", main="Length",notch=TRUE))
+```
+
+## Task 7
+
+  a.  Here is the coplot of Length Vs Weight given River
+```{r, align='center'}
+rivcol=with(ddt, ifelse(RIVER=="FCM","Red",
+                        ifelse(RIVER=="LCM","Blue",
+                               ifelse(RIVER=="SCM","Green","Black"))))
+
+coplot(LENGTH~WEIGHT|RIVER,data=ddt,col=rivcol)
+```
+  
+  b.    Here is the coplot of DDT Vs Weight given Species
+```{r, align='center'}
+fishcol=with(ddt,ifelse(SPECIES=="CCATFISH","Red",
+                        ifelse(SPECIES=="SMBUFFALO","Blue","Green")))
+
+coplot(DDT~WEIGHT|SPECIES,data=ddt,col=fishcol)
+```
+  
+
+## Task 8
+  a. Here is the ggplot Boxplot
+```{r, align='center'}
+ggplot(ddt, aes(x=SPECIES, y=WEIGHT, fill=RIVER)) +
+  geom_boxplot() + ggtitle("Jack Schwarz")
+```
+
+  b.    Here is the ggplot Violin Plot
+```{r, align='center'}
+ggplot(ddt, aes(x=RIVER, y=LENGTH, fill=SPECIES)) +
+  geom_violin() + ggtitle("Jack Schwarz")
+```
+
+  c.    Here is the ggplot Scatter Plot
+```{r, align='center'}
+ggplot(ddt, aes(x=WEIGHT, y=LENGTH, fill=SPECIES, color=SPECIES)) +
+  geom_point() + ggtitle("Jack Schwarz")
+```

@@ -1,0 +1,377 @@
+
+R version 4.0.2 (2020-06-22) -- "Taking Off Again"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "Intro2R"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> base::assign(".ExTimings", "Intro2R-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
+> library('Intro2R')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("myTsim")
+> ### * myTsim
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: myTsim
+> ### Title: T simulation
+> ### Aliases: myTsim
+> 
+> ### ** Examples
+> 
+> myTsim()
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("myTsim", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("mybin")
+> ### * mybin
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: mybin
+> ### Title: Binomial Simulation
+> ### Aliases: mybin
+> 
+> ### ** Examples
+> 
+> mybin() # Use default values
+
+   0    1    2    3    4    5    6    7    8    9   10 
+0.00 0.02 0.03 0.15 0.22 0.27 0.19 0.06 0.06 0.00 0.00 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("mybin", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("myfirstfun")
+> ### * myfirstfun
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: myfirstfun
+> ### Title: Very first function
+> ### Aliases: myfirstfun
+> 
+> ### ** Examples
+> 
+> ####### some examples ####
+> data <- 1:40
+> myfirstfun(x = data, pch=21, bg="Blue", cex = 2.4) # x data and extra options to send to plot
+$x
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+[26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40
+
+$y
+ [1]    1    4    9   16   25   36   49   64   81  100  121  144  169  196  225
+[16]  256  289  324  361  400  441  484  529  576  625  676  729  784  841  900
+[31]  961 1024 1089 1156 1225 1296 1369 1444 1521 1600
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("myfirstfun", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("mymode")
+> ### * mymode
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: mymode
+> ### Title: Function to find the mode
+> ### Aliases: mymode
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D mymode(ddt$LENGTH)
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("mymode", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("mynewf")
+> ### * mynewf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: mynewf
+> ### Title: Another function
+> ### Aliases: mynewf
+> 
+> ### ** Examples
+> 
+> x<-1:10;mynewf(x)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("mynewf", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("myreadxl")
+> ### * myreadxl
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: myreadxl
+> ### Title: Read all xl files
+> ### Aliases: myreadxl
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D v<-myreadxl()
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("myreadxl", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("myttest")
+> ### * myttest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: myttest
+> ### Title: A constructor function for t tests
+> ### Aliases: myttest
+> ### Keywords: NHST t.test testing ttest
+> 
+> ### ** Examples
+> 
+> myttest(x=rnorm(30,10,12), y=rnorm(40, 7, 10))
+$ttest
+
+	Two Sample t-test
+
+data:  x and y
+t = 0.7629, df = 68, p-value = 0.4482
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -3.014233  6.745561
+sample estimates:
+mean of x mean of y 
+10.989498  9.123834 
+
+
+$df
+           data v
+1    2.48255427 x
+2   12.20371989 x
+3   -0.02754335 x
+4   29.14336963 x
+5   13.95409326 x
+6    0.15437939 x
+7   15.84914863 x
+8   18.85989646 x
+9   16.90937622 x
+10   6.33533935 x
+11  28.14137402 x
+12  14.67811884 x
+13   2.54511303 x
+14 -16.57639865 x
+15  23.49917102 x
+16   9.46079669 x
+17   9.80571684 x
+18  21.32603453 x
+19  19.85465434 x
+20  17.12681585 x
+21  21.02772846 x
+22  19.38563561 x
+23  10.89477980 x
+24 -13.87222035 x
+25  17.43790897 x
+26   9.32645513 x
+27   8.13045392 x
+28  -7.64902861 x
+29   4.26219934 x
+30  15.01529872 x
+31  20.58679552 y
+32   5.97212273 y
+33  10.87671612 y
+34   6.46194959 y
+35  -6.77059557 y
+36   2.85005437 y
+37   3.05710046 y
+38   6.40686603 y
+39  18.00025372 y
+40  14.63175748 y
+41   5.35476404 y
+42   4.46638320 y
+43  13.96963375 y
+44  12.56663199 y
+45   0.11244305 y
+46  -0.07495157 y
+47  10.64581962 y
+48  14.68532925 y
+49   5.87653788 y
+50  15.81107726 y
+51  10.98105880 y
+52   0.87973607 y
+53  10.41119691 y
+54  -4.29363096 y
+55  21.33023702 y
+56  26.80399899 y
+57   3.32778524 y
+58  -3.44134626 y
+59  12.69719627 y
+60   5.64945396 y
+61  31.01617761 y
+62   6.60759997 y
+63  13.89739362 y
+64   7.28002159 y
+65  -0.43273209 y
+66   8.88792300 y
+67 -11.04958629 y
+68  21.65554862 y
+69   8.53253338 y
+70  28.72611670 y
+
+$paired
+[1] FALSE
+
+attr(,"class")
+[1] "mytt"
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("myttest", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("plot.mytt")
+> ### * plot.mytt
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: plot.mytt
+> ### Title: Method for plotting class mytt
+> ### Aliases: plot.mytt
+> 
+> ### ** Examples
+> 
+> l<-myttest(x=rnorm(30), y=rnorm(40,0.5));plot(l)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("plot.mytt", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("rmdfile")
+> ### * rmdfile
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: rmdfile
+> ### Title: Link and file location
+> ### Aliases: rmdfile
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D `r rmdfile("Lab2 exemplar code","Lab2.R", "Lab2")`
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("rmdfile", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("rmdfiles")
+> ### * rmdfiles
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: rmdfiles
+> ### Title: Links to files in directory
+> ### Aliases: rmdfiles
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D `r rmdfiles(rootf="Lab2")`
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("rmdfiles", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("shinyplots")
+> ### * shinyplots
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: shinyplots
+> ### Title: Dynamic plots using shiny
+> ### Aliases: shinyplots
+> 
+> ### ** Examples
+> 
+> ## Not run:  shinyplots()
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("shinyplots", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  1.049 0.05 1.124 0.002 0.002 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
